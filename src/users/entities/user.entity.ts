@@ -1,4 +1,4 @@
-
+import { Violation } from 'src/violations/entities/violation.entity';
 import {
   Column,
   CreateDateColumn,
@@ -18,6 +18,8 @@ export class User {
   password: string;
   @Column({ type: 'varchar', default: 'user' })
   role: string;
+  @OneToMany(() => Violation, (violation) => violation.user)
+  violations: Violation[];
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
   @UpdateDateColumn({ type: 'timestamp' })
