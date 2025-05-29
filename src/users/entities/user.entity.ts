@@ -14,11 +14,9 @@ export class User {
   id: number;
   @Column({ type: `varchar` })
   username: string;
-  @Column({ unique: true, type: 'varchar', nullable: true })
-  email: string;
   @Column({ type: `varchar` })
   password: string;
-  @Column({ type: 'varchar', default: 'client' })
+  @Column({ type: 'varchar', default: 'user' })
   role: string;
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

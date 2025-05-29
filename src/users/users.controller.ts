@@ -24,12 +24,6 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard, RolesGuard)
-  @Get('admins')
-  async getAllAdmins() {
-    return this.usersService.getAllAdmins();
-  }
-
-  @UseGuards(AuthGuard, RolesGuard)
   @Get(`all`)
   findAll() {
     return this.usersService.findAll();

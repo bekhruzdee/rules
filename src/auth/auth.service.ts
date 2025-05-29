@@ -23,19 +23,17 @@ export class AuthService {
   async create(createAuthDto: CreateAuthDto) {
     const existingUser = await this.userRepository.findOne({
       where: [
-        { username: createAuthDto.username },
-        { email: createAuthDto.email },
+        { username: createAuthDto.username }
       ],
     });
 
     if (existingUser) {
-      throw new ConflictException('Username or Email already exists.');
+      throw new ConflictException('Username  already exists.');
     }
 
     const user = this.userRepository.create();
     user.username = createAuthDto.username;
     user.password = await bcrypt.hash(createAuthDto.password, 10);
-    user.email = createAuthDto.email;
 
     await this.userRepository.save(user);
     return 'You are registered✅';

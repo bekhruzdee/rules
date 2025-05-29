@@ -17,7 +17,7 @@ export class UsersService {
     createAdminDto: CreateAdminDto,
   ): Promise<{ success: boolean; message: string; data?: User }> {
     const existingUser = await this.usersRepository.findOne({
-      where: { email: createAdminDto.email },
+      where: { username: createAdminDto.username },
     });
 
     if (existingUser) {
@@ -43,37 +43,13 @@ export class UsersService {
     };
   }
 
-  async getAllAdmins(): Promise<{
-    success: boolean;
-    message: string;
-    data: User[];
-  }> {
-    const admins = await this.usersRepository.find({
-      where: { role: 'admin' },
-    });
-
-    if (!admins.length) {
-      return {
-        success: false,
-        message: 'No admins found❌',
-        data: [],
-      };
-    }
-
-    return {
-      success: true,
-      message: 'Admins retrieved successfully✅',
-      data: admins,
-    };
-  }
-
   async findAll(): Promise<{
     success: boolean;
     message: string;
     data: Omit<User, 'password'>[];
   }> {
     const users = await this.usersRepository.find({
-      select: ['id', 'username', 'email', 'role', 'created_at', 'updated_at'],
+      select: ['id', 'username', 'role', 'created_at', 'updated_at'],
     });
     return {
       success: true,
@@ -85,7 +61,7 @@ export class UsersService {
   async findOne(id: number): Promise<Omit<User, 'password'>> {
     const user = await this.usersRepository.findOne({
       where: { id },
-      select: ['id', 'username', 'email', 'role', 'created_at', 'updated_at'],
+      select: ['id', 'username', 'role', 'created_at', 'updated_at'],
     });
 
     if (!user) {
@@ -110,15 +86,20 @@ export class UsersService {
       };
     }
 
-    await this.usersRepository.update(userId, updateUserDto);
-    const updatedUser = await this.usersRepository.findOne({
-      where: { id: userId },
+    if (updateUserDto.password) {
+      const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+      updateUserDto.password = hashedPassword;
+    }
+
+    const updatedUser = await this.usersRepository.save({
+      ...existingUser,
+      ...updateUserDto,
     });
 
     return {
       success: true,
       message: 'User updated successfully',
-      data: updatedUser || undefined,
+      data: updatedUser,
     };
   }
 
