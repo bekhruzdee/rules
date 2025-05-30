@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 
 export enum ViolationLevel {
@@ -12,7 +18,7 @@ export class Violation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.violations, { eager: true })
+  @ManyToOne(() => User, (user) => user.violations, { onDelete: 'CASCADE' })
   user: User;
 
   @Column({ type: 'enum', enum: ViolationLevel })
