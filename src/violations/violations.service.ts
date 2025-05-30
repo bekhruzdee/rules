@@ -32,7 +32,7 @@ export class ViolationsService {
       select: ['id', 'username', 'role', 'created_at', 'updated_at'],
     });
 
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new NotFoundException('User not found⚠️');
 
     const penaltyPoints = this.getPointsForLevel(createDto.level);
 
@@ -47,7 +47,7 @@ export class ViolationsService {
 
     return {
       success: true,
-      message: 'Violation recorded successfully',
+      message: 'Violation recorded successfully✅',
       data: savedViolation,
     };
   }
@@ -68,7 +68,7 @@ export class ViolationsService {
       .where('user.id = :userId', { userId })
       .getOne();
 
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new NotFoundException('User not found⚠️');
 
     const totalPoints = user.violations.reduce(
       (sum, v) => sum + v.penaltyPoints,

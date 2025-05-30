@@ -28,7 +28,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Username  already exists.');
+      throw new ConflictException('Username  already exists❌');
     }
 
     const user = this.userRepository.create();

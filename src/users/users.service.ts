@@ -23,7 +23,7 @@ export class UsersService {
     if (existingUser) {
       return {
         success: false,
-        message: 'User already exists',
+        message: 'User already exists❌',
       };
     }
 
@@ -53,7 +53,7 @@ export class UsersService {
     });
     return {
       success: true,
-      message: 'Users data retrieved successfully',
+      message: 'Users data retrieved successfully✅',
       data: users,
     };
   }
@@ -65,7 +65,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      throw new NotFoundException(`User with ID ${id} not found❌`);
     }
 
     return user;
@@ -82,7 +82,7 @@ export class UsersService {
     if (!existingUser) {
       return {
         success: false,
-        message: 'User not found❌',
+        message: 'User not found⚠️',
       };
     }
 
@@ -98,7 +98,7 @@ export class UsersService {
 
     return {
       success: true,
-      message: 'User updated successfully',
+      message: 'User updated successfully✅',
       data: updatedUser,
     };
   }
@@ -111,7 +111,7 @@ export class UsersService {
     if (!existingUser) {
       return {
         success: false,
-        message: 'User not found',
+        message: 'User not found⚠️',
       };
     }
 
@@ -119,7 +119,7 @@ export class UsersService {
 
     return {
       success: true,
-      message: 'User deleted successfully',
+      message: 'User deleted successfully✅',
     };
   }
 }
