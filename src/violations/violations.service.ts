@@ -26,9 +26,9 @@ export class ViolationsService {
     }
   }
 
-  async create(createDto: CreateViolationDto) {
+  async create(userId: number, createDto: CreateViolationDto) {
     const user = await this.usersRepository.findOne({
-      where: { id: createDto.userId },
+      where: { id: userId },
       select: ['id', 'username', 'role', 'created_at', 'updated_at'],
     });
 
@@ -83,6 +83,26 @@ export class ViolationsService {
       totalPenaltyPoints: totalPoints,
       violations: user.violations,
       actions: totalPoints >= 12 ? '⚠️ Maoshdan ushlab qolinadi' : '✅ OK',
+    };
+  }
+
+  async getUserViolationHistory(userId: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      select: ['id', 'username'],
+    });
+    if (!user) throw new NotFoundException('User not found⚠️');
+
+    const violations = await this.violationRepository.find({
+      where: { user: { id: userId } },
+      select: ['id', 'level', 'description', 'penaltyPoints', 'createdAt'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return {
+      user,
+      totalViolations: violations.length,
+      history: violations,
     };
   }
 }

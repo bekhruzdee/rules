@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Transform } from 'class-transformer';
+import moment from 'moment-timezone';
 
 export enum ViolationLevel {
   MINOR = 'minor',
