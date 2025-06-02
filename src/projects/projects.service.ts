@@ -18,7 +18,7 @@ export class ProjectsService {
 
   async create(createDto: CreateProjectDto) {
     if (!createDto.userIds || !Array.isArray(createDto.userIds)) {
-      throw new NotFoundException('userIds massiv bo‘lishi kerak');
+      throw new NotFoundException('userIds must be an array');
     }
 
     const users = await this.userRepository.find({
@@ -34,7 +34,7 @@ export class ProjectsService {
     const saved = await this.projectRepository.save(project);
 
     return {
-      message: 'Loyiha muvaffaqiyatli yaratildi ✅',
+      message: 'Project created successfully ✅',
       data: {
         id: saved.id,
         name: saved.name,
@@ -65,13 +65,13 @@ export class ProjectsService {
     if (!projects.length) {
       throw new NotFoundException({
         statusCode: 404,
-        message: 'Hozircha loyiha mavjud emas ⚠️',
+        message: 'No projects found ⚠️',
         error: 'Not Found',
       });
     }
 
     return {
-      message: 'Loyihalar muvaffaqiyatli olindi ✅',
+      message: 'Projects retrieved successfully ✅',
       data: projects,
     };
   }
@@ -92,11 +92,11 @@ export class ProjectsService {
     });
 
     if (!project) {
-      throw new NotFoundException(`Loyiha topilmadi (id: ${id}) ⚠️`);
+      throw new NotFoundException(`Project not found (id: ${id}) ⚠️`);
     }
 
     return {
-      message: 'Loyiha muvaffaqiyatli topildi ✅',
+      message: 'Project retrieved successfully ✅',
       data: project,
     };
   }
@@ -108,17 +108,24 @@ export class ProjectsService {
     });
 
     if (!project) {
-      throw new NotFoundException(`Loyiha topilmadi (id: ${id}) ⚠️`);
+      throw new NotFoundException(`Project not found (id: ${id}) ⚠️`);
     }
+
+    let users = project.users;
 
     if (updateDto.userIds) {
       if (!Array.isArray(updateDto.userIds)) {
-        throw new NotFoundException('userIds massiv bo‘lishi kerak');
+        throw new NotFoundException('userIds must be an array');
       }
 
-      const users = await this.userRepository.find({
+      users = await this.userRepository.find({
         where: { id: In(updateDto.userIds) },
+        select: ['id', 'username'],
       });
+
+      if (!users.length) {
+        throw new NotFoundException('No valid users found for given userIds');
+      }
 
       project.users = users;
     }
@@ -130,21 +137,31 @@ export class ProjectsService {
     const updated = await this.projectRepository.save(project);
 
     return {
-      message: 'Loyiha muvaffaqiyatli yangilandi ✅',
-      data: updated,
+      message: 'Project updated successfully ✅',
+      data: {
+        id: updated.id,
+        name: updated.name,
+        description: updated.description,
+        createdAt: updated.created_at,
+        users: users.map((u) => ({
+          id: u.id,
+          username: u.username,
+        })),
+      },
     };
   }
 
   async remove(id: number) {
     const project = await this.projectRepository.findOne({ where: { id } });
+
     if (!project) {
-      throw new NotFoundException(`Loyiha topilmadi (id: ${id}) ⚠️`);
+      throw new NotFoundException(`Project not found (id: ${id}) ⚠️`);
     }
 
     await this.projectRepository.remove(project);
 
     return {
-      message: 'Loyiha muvaffaqiyatli o‘chirildi ✅',
+      message: 'Project deleted successfully ✅',
     };
   }
 }
