@@ -1,4 +1,4 @@
-import {  IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class UpdateProjectDto {
   @IsString()
@@ -7,6 +7,5 @@ export class UpdateProjectDto {
   @IsString()
   description?: string;
 
-  
   userIds: number[];
 }
