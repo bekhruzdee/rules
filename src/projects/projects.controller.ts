@@ -7,15 +7,19 @@ import {
   Body,
   ParseIntPipe,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/auth/role.guard';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   create(@Body() createDto: CreateProjectDto) {
     return this.projectsService.create(createDto);
@@ -31,6 +35,7 @@ export class ProjectsController {
     return this.projectsService.findOne(id);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -39,6 +44,7 @@ export class ProjectsController {
     return this.projectsService.update(id, updateDto);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.projectsService.remove(id);
