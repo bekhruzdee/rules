@@ -23,7 +23,6 @@ export class TasksController {
 
   @Get()
   findAll() {
-    // Returns Kanban-style grouped tasks (todo, in_progress, done)
     return this.tasksService.findAll();
   }
 
@@ -33,10 +32,7 @@ export class TasksController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateTaskDto,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTaskDto) {
     return this.tasksService.update(id, dto);
   }
 

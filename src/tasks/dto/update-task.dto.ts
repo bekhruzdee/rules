@@ -1,10 +1,3 @@
-// export class UpdateTaskDto {
-//   title?: string;
-//   description?: string;
-//   userIds?: number[];
-//   completed?: boolean;
-// }
-
 import { IsOptional, IsString, IsArray, IsEnum, IsBoolean } from 'class-validator';
 import { TaskStatus } from '../entities/task.entity';
 
