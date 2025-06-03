@@ -10,6 +10,8 @@ import { ViolationsModule } from './violations/violations.module';
 import { Violation } from './violations/entities/violation.entity';
 import { ProjectsModule } from './projects/projects.module';
 import { Project } from './projects/entities/project.entity';
+import { TasksModule } from './tasks/tasks.module';
+import { Task } from './tasks/entities/task.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,7 +22,7 @@ import { Project } from './projects/entities/project.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Violation, Project],
+      entities: [User, Violation, Project, Task],
       synchronize: true,
       // logging: true,
     }),
@@ -28,6 +30,7 @@ import { Project } from './projects/entities/project.entity';
     UserModule,
     ViolationsModule,
     ProjectsModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

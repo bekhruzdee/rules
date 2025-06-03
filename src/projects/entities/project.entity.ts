@@ -5,8 +5,10 @@ import {
   ManyToMany,
   JoinTable,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Task } from 'src/tasks/entities/task.entity';
 
 @Entity()
 export class Project {
@@ -22,6 +24,8 @@ export class Project {
   @ManyToMany(() => User, (user) => user.projects, { cascade: true })
   @JoinTable()
   users: User[];
+  @OneToMany(() => Task, (task) => task.project)
+  tasks: Task[];
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
