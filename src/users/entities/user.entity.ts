@@ -1,3 +1,5 @@
+import { Exclude } from 'class-transformer';
+import { Comment } from 'src/comments/entities/comment.entity';
 import { Project } from 'src/projects/entities/project.entity';
 import { Violation } from 'src/violations/entities/violation.entity';
 import {
@@ -16,6 +18,7 @@ export class User {
   id: number;
   @Column({ type: `varchar` })
   username: string;
+  @Exclude()
   @Column({ type: `varchar` })
   password: string;
   @Column({ type: 'varchar', default: 'user' })
@@ -24,6 +27,8 @@ export class User {
   violations: Violation[];
   @ManyToMany(() => Project, (project) => project.users)
   projects: Project[];
+  @OneToMany(() => Comment, (comment) => comment.author)
+comments: Comment[];
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
   @UpdateDateColumn({ type: 'timestamp' })

@@ -7,9 +7,11 @@ import {
   JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Project } from 'src/projects/entities/project.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 
 export enum TaskStatus {
   TODO = 'todo',
@@ -36,6 +38,8 @@ export class Task {
 
   @ManyToOne(() => Project, (project) => project.tasks, { eager: true })
   project: Project;
+  @OneToMany(() => Comment, (comment) => comment.task)
+comments: Comment[];
 
   @ManyToMany(() => User, { eager: true })
   @JoinTable()

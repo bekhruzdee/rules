@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Task } from 'src/tasks/entities/task.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 
 @Entity()
 export class Project {
@@ -26,6 +27,10 @@ export class Project {
   users: User[];
   @OneToMany(() => Task, (task) => task.project)
   tasks: Task[];
+
+  @OneToMany(() => Comment, (comment) => comment.project)
+comments: Comment[];
+
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
