@@ -1,5 +1,4 @@
-// create-comment.dto.ts
-import { IsNotEmpty, IsOptional, IsNumber, ValidateIf } from 'class-validator';
+import { IsNotEmpty, IsNumber, ValidateIf } from 'class-validator';
 
 export class CreateCommentDto {
   @IsNotEmpty()

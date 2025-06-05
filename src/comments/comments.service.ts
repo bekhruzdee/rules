@@ -57,7 +57,13 @@ export class CommentsService {
 
     const withRelations = await this.commentRepository.findOne({
       where: { id: saved.id },
-      relations: ['author', 'task', 'task.project', 'task.assignedUsers', 'project'],
+      relations: [
+        'author',
+        'task',
+        'task.project',
+        'task.assignedUsers',
+        'project',
+      ],
     });
 
     return {

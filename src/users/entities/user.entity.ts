@@ -28,7 +28,7 @@ export class User {
   @ManyToMany(() => Project, (project) => project.users)
   projects: Project[];
   @OneToMany(() => Comment, (comment) => comment.author)
-comments: Comment[];
+  comments: Comment[];
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
   @UpdateDateColumn({ type: 'timestamp' })
