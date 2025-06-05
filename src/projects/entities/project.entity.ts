@@ -29,8 +29,7 @@ export class Project {
   tasks: Task[];
 
   @OneToMany(() => Comment, (comment) => comment.project)
-comments: Comment[];
-
+  comments: Comment[];
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
