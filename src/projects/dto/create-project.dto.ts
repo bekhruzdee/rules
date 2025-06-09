@@ -1,11 +1,24 @@
-import { IsNumber, IsString } from 'class-validator';
+// import { IsNumber, IsString } from 'class-validator';
+
+// export class CreateProjectDto {
+//   @IsString()
+//   name: string;
+
+//   @IsString()
+//   description?: string;
+
+//   userIds: number[];
+// }
+
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateProjectDto {
-  @IsString()
+  @IsNotEmpty()
   name: string;
 
-  @IsString()
+  @IsOptional()
   description?: string;
 
-  userIds: number[];
+  @IsOptional()
+  userIds?: number[];
 }
