@@ -25,11 +25,13 @@ export class ProjectsController {
     return this.projectsService.create(createDto);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.projectsService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.projectsService.findOne(id);
