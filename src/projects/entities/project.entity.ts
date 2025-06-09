@@ -21,6 +21,8 @@ export class Project {
 
   @Column({ nullable: true })
   description: string;
+  @Column({ nullable: true })
+  imagePath?: string;
 
   @ManyToMany(() => User, (user) => user.projects, { cascade: true })
   @JoinTable()

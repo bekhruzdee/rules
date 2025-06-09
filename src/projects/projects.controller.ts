@@ -8,21 +8,45 @@ import {
   ParseIntPipe,
   Patch,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/auth/role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @UseGuards(AuthGuard, RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Post()
+  // create(@Body() createDto: CreateProjectDto) {
+  //   return this.projectsService.create(createDto);
+  // }
+
+   @UseGuards(AuthGuard, RolesGuard)
   @Post()
-  create(@Body() createDto: CreateProjectDto) {
-    return this.projectsService.create(createDto);
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploads', // 📁 uploads papkasiga saqlanadi
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const ext = extname(file.originalname);
+        cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+      },
+    }),
+  }))
+  create(
+    @Body() createDto: CreateProjectDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.projectsService.create(createDto, file);
   }
 
   @UseGuards(AuthGuard)

@@ -16,37 +16,74 @@ export class ProjectsService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createDto: CreateProjectDto) {
-    if (!createDto.userIds || !Array.isArray(createDto.userIds)) {
-      throw new NotFoundException('userIds must be an array');
-    }
+  // async create(createDto: CreateProjectDto) {
+  //   if (!createDto.userIds || !Array.isArray(createDto.userIds)) {
+  //     throw new NotFoundException('userIds must be an array');
+  //   }
 
-    const users = await this.userRepository.find({
-      where: { id: In(createDto.userIds) },
-    });
+  //   const users = await this.userRepository.find({
+  //     where: { id: In(createDto.userIds) },
+  //   });
 
-    const project = this.projectRepository.create({
-      name: createDto.name,
-      description: createDto.description,
-      users,
-    });
+  //   const project = this.projectRepository.create({
+  //     name: createDto.name,
+  //     description: createDto.description,
+  //     users,
+  //   });
 
-    const saved = await this.projectRepository.save(project);
+  //   const saved = await this.projectRepository.save(project);
 
-    return {
-      message: 'Project created successfully ✅',
-      data: {
-        id: saved.id,
-        name: saved.name,
-        description: saved.description,
-        users: saved.users.map((u) => ({
-          id: u.id,
-          username: u.username,
-        })),
-        createdAt: saved.created_at,
-      },
-    };
+  //   return {
+  //     message: 'Project created successfully ✅',
+  //     data: {
+  //       id: saved.id,
+  //       name: saved.name,
+  //       description: saved.description,
+  //       users: saved.users.map((u) => ({
+  //         id: u.id,
+  //         username: u.username,
+  //       })),
+  //       createdAt: saved.created_at,
+  //     },
+  //   };
+  // }
+
+
+  async create(createDto: CreateProjectDto, file?: Express.Multer.File) {
+  if (!createDto.userIds || !Array.isArray(createDto.userIds)) {
+    throw new NotFoundException('userIds must be an array');
   }
+
+  const users = await this.userRepository.find({
+    where: { id: In(createDto.userIds) },
+  });
+
+  const project = this.projectRepository.create({
+    name: createDto.name,
+    description: createDto.description,
+    users,
+    imagePath: file?.filename, // Fayl nomini saqlaymiz
+  });
+
+  const saved = await this.projectRepository.save(project);
+
+  return {
+    message: 'Project created successfully ✅',
+    data: {
+      id: saved.id,
+      name: saved.name,
+      description: saved.description,
+      imagePath: saved.imagePath
+        ? `uploads/projects/${saved.imagePath}`
+        : null,
+      users: saved.users.map((u) => ({
+        id: u.id,
+        username: u.username,
+      })),
+      createdAt: saved.created_at,
+    },
+  };
+}
 
   async findAll() {
     const projects = await this.projectRepository.find({
