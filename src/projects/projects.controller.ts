@@ -35,10 +35,7 @@ export class ProjectsController {
 
   @Post()
   @UseInterceptors(multerOptions)
-  create(
-    @Body() body: any,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
+  create(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
     return this.projectsService.create(body, file);
   }
 
@@ -56,7 +53,7 @@ export class ProjectsController {
 
   @UseGuards(AuthGuard, RolesGuard)
   @Patch(':id')
-  @UseInterceptors(multerOptions) 
+  @UseInterceptors(multerOptions)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: any,

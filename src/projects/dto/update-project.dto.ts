@@ -14,5 +14,5 @@ export class UpdateProjectDto {
   @IsArray()
   @Type(() => Number)
   @IsInt({ each: true })
-  userIds?: number[]; 
+  userIds?: number[];
 }
