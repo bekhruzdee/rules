@@ -36,10 +36,13 @@ export class Task {
   @Column({ default: false })
   completed: boolean;
 
-  @ManyToOne(() => Project, (project) => project.tasks, { eager: true, onDelete: "CASCADE" })
+  @ManyToOne(() => Project, (project) => project.tasks, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   project: Project;
   @OneToMany(() => Comment, (comment) => comment.task)
-comments: Comment[];
+  comments: Comment[];
 
   @ManyToMany(() => User, { eager: true })
   @JoinTable()
