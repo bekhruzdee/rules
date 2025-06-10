@@ -36,7 +36,7 @@ export class Task {
   @Column({ default: false })
   completed: boolean;
 
-  @ManyToOne(() => Project, (project) => project.tasks, { eager: true })
+  @ManyToOne(() => Project, (project) => project.tasks, { eager: true, onDelete: "CASCADE" })
   project: Project;
   @OneToMany(() => Comment, (comment) => comment.task)
 comments: Comment[];

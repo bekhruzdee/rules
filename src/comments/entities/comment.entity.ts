@@ -21,7 +21,7 @@ export class Comment {
   @ManyToOne(() => User, (user) => user.comments, { eager: true })
   author: User;
 
-  @ManyToOne(() => Task, (task) => task.comments, { nullable: true })
+  @ManyToOne(() => Task, (task) => task.comments, { nullable: true, onDelete: "CASCADE" })
   task: Task;
 
   @ManyToOne(() => Project, (project) => project.comments, {
