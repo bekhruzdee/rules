@@ -24,7 +24,10 @@ export class Comment {
   @ManyToOne(() => Task, (task) => task.comments, { nullable: true })
   task: Task;
 
-  @ManyToOne(() => Project, (project) => project.comments, { nullable: true })
+  @ManyToOne(() => Project, (project) => project.comments, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   project: Project;
 
   @CreateDateColumn()
