@@ -44,6 +44,11 @@ export class UsersService {
     };
   }
 
+  async getUserCount(): Promise<{ total: number }> {
+    const total = await this.usersRepository.count();
+    return { total };
+  }
+
   async findAll(): Promise<{
     success: boolean;
     message: string;

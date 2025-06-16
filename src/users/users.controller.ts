@@ -23,6 +23,11 @@ export class UsersController {
     return this.usersService.createAdmin(createAdminDto);
   }
 
+  @Get('count')
+  getUserCount() {
+    return this.usersService.getUserCount();
+  }
+
   @UseGuards(AuthGuard, RolesGuard)
   @Get(`all`)
   findAll() {
