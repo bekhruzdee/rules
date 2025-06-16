@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import * as bcrypt from 'bcrypt';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -99,7 +100,7 @@ export class UsersService {
     return {
       success: true,
       message: 'User updated successfully✅',
-      data: updatedUser,
+      data: plainToInstance(User, updatedUser),
     };
   }
 
