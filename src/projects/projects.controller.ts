@@ -39,6 +39,12 @@ export class ProjectsController {
     return this.projectsService.create(body, file);
   }
 
+  @Get('count')
+  async getProjectsCount() {
+    const count = await this.projectsService.countProjects();
+    return { total: count };
+  }
+
   @UseGuards(AuthGuard)
   @Get()
   findAll() {

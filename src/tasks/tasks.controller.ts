@@ -8,6 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -23,6 +24,12 @@ export class TasksController {
   @Post()
   create(@Body() dto: CreateTaskDto) {
     return this.tasksService.create(dto);
+  }
+
+  @Get('count')
+  async getTotalTasks(@Query('userId') userId?: number) {
+    
+    return this.tasksService.countAll();
   }
 
   @UseGuards(AuthGuard)

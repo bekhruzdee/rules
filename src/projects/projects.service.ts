@@ -89,6 +89,10 @@ export class ProjectsService {
     };
   }
 
+  async countProjects(): Promise<number> {
+    return this.projectRepository.count();
+  }
+
   async findAll() {
     const projects = await this.projectRepository.find({
       relations: ['users'],

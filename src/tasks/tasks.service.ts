@@ -53,6 +53,11 @@ export class TasksService {
     return this.formatTask(saved);
   }
 
+  async countAll(): Promise<{ total: number }> {
+    const total = await this.taskRepository.count();
+    return { total };
+  }
+
   async findAll() {
     const tasks = await this.taskRepository.find();
     const grouped: Record<TaskStatus, any[]> = {
