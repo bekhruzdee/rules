@@ -5,9 +5,12 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ViolationsService } from './violations.service';
 import { CreateViolationDto } from './dto/create-violation.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('violations')
 export class ViolationsController {
@@ -19,6 +22,13 @@ export class ViolationsController {
     @Body() createDto: CreateViolationDto,
   ) {
     return this.violationsService.create(userId, createDto);
+  }
+
+  @Get('/count')
+  @UseGuards(AuthGuard)
+  async countMyViolations(@Req() req: any) {
+    const userId = req.user.id;
+    return this.violationsService.countByUser(userId);
   }
 
   @Get('summary/:userId')

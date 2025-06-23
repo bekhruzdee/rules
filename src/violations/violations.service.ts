@@ -52,6 +52,13 @@ export class ViolationsService {
     };
   }
 
+  async countByUser(userId: number): Promise<{ total: number }> {
+  const total = await this.violationRepository.count({
+    where: { user: { id: userId } },
+  });
+  return { total };
+}
+
   async getUserPenaltySummary(userId: number) {
     const user = await this.usersRepository
       .createQueryBuilder('user')
