@@ -97,7 +97,6 @@ export class DashboardService {
         },
       };
     } catch (error) {
-      console.error('Failed to load dashboard statistics ❌', error);
       return {
         httpStatusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: 'Failed to retrieve dashboard statistics ❌',
