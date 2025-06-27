@@ -1,7 +1,8 @@
 import * as crypto from 'crypto';
 
 const algorithm = 'aes-256-cbc';
-const secretKey = process.env.JWT_ENCRYPTION_SECRET || 'defaultkeydefaultkeydefaultkey12'; // 32 bytes
+const secretKey =
+  process.env.JWT_ENCRYPTION_SECRET || 'defaultkeydefaultkeydefaultkey12';
 
 export function encrypt(text: string): string {
   const iv = crypto.randomBytes(16);
@@ -17,7 +18,7 @@ export function decrypt(text: string): string {
   const decipher = crypto.createDecipheriv(
     algorithm,
     Buffer.from(secretKey),
-    iv
+    iv,
   );
   let decrypted = decipher.update(Buffer.from(encryptedText, 'hex'));
   decrypted = Buffer.concat([decrypted, decipher.final()]);
