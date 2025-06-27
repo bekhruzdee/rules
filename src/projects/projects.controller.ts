@@ -33,6 +33,7 @@ const multerOptions = FileInterceptor('file', {
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   @UseInterceptors(multerOptions)
   create(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
@@ -63,7 +64,7 @@ export class ProjectsController {
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: any,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File, 
   ) {
     return this.projectsService.update(id, body, file);
   }
