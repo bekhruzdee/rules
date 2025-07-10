@@ -5,13 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
-  <div class="container">
-    <h1 id="welcomeMessage">Welcome!</h1>
-    <p>This is your dashboard</p>
-    <button id="logoutBtn">Logout</button>
+  <div class="dashboard-wrapper">
+    <div class="dashboard-main">
+      <h1 id="welcomeMessage">Welcome!</h1>
+      <p>This is your dashboard</p>
+    </div>
+
+    <div class="user-profile">
+      <i class="fa-solid fa-user-circle user-icon"></i>
+      <p id="usernameDisplay">@user</p>
+      <button id="logoutBtn">Logout</button>
+    </div>
   </div>
+
   <script src="/js/dashboard.js"></script>
 </body>
 </html>
